@@ -1,95 +1,86 @@
 package com.ht.core.config;
 
-import java.util.Properties;
-
-import javax.sql.DataSource;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.orm.hibernate5.HibernateTransactionManager;
-import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
-import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import com.ht.core.dao.helpers.UserRowMapper;
-
 @Configuration
-@ComponentScan({"com.ht.core.dao","com.ht.core.service"})
-@PropertySource("classpath:database.properties")
 @EnableTransactionManagement
+@ComponentScan({"com.ht.core.service"})
+@EnableJpaRepositories(basePackages = "com.ht.core.dao")
+@EntityScan( basePackages = {"com.ht.core.model"} )
+@PropertySource("classpath:application.properties")
+@EnableAutoConfiguration
 public class HtCoreConfig {
 	
-	private final String URL = "url";
-	private final String USER = "dbuser";
-	private final String DRIVER = "driver";
-	private final String PASSWORD = "dbpassword";
-	
-	private final String HIBERNATE_DIALECT = "dialect";
-	private final String HIBERNATE_DDL = "hibernate.ddl";
-	private final String HIBERNATE_SHOW_SQL = "hibernate.showsql"; 
-	
-	
-	@Autowired
-	private Environment env;
-	
-	@Bean
-	public DataSource dataSource() {
-		DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource();
-		driverManagerDataSource.setUrl(env.getProperty(URL));
-		driverManagerDataSource.setUsername(env.getProperty(USER));
-		driverManagerDataSource.setPassword(env.getProperty(PASSWORD));
-		driverManagerDataSource.setDriverClassName(env.getProperty(DRIVER));
-		return driverManagerDataSource;
-	}
+//	private final String URL = "url";
+//	private final String USER = "dbuser";
+//	private final String DRIVER = "driver";
+//	private final String PASSWORD = "dbpassword";
+//	
+//	private final String HIBERNATE_DIALECT = "dialect";
+//	private final String HIBERNATE_DDL = "hibernate.ddl";
+//	private final String HIBERNATE_SHOW_SQL = "hibernate.showsql"; 
 	
 	
-	@Bean
-    public LocalSessionFactoryBean sessionFactory() {
-        LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
-        sessionFactory.setPackagesToScan("com.ht.core.model");
-        sessionFactory.setDataSource(dataSource());
-        sessionFactory.setHibernateProperties(hibernateProperties()); 
-        return sessionFactory;
-    }
+//	@Autowired
+//	private Environment env;
 	
-	@Bean
-    public PlatformTransactionManager hibernateTransactionManager() {
-        HibernateTransactionManager transactionManager = new HibernateTransactionManager();
-        transactionManager.setSessionFactory(sessionFactory().getObject());
-        return transactionManager;
-    }
- 
-    private Properties hibernateProperties() {
-        Properties hibernateProperties = new Properties();
-        hibernateProperties.setProperty(org.hibernate.cfg.Environment.DIALECT, env.getProperty(HIBERNATE_DIALECT));
-        hibernateProperties.setProperty(org.hibernate.cfg.Environment.HBM2DDL_AUTO,env.getProperty(HIBERNATE_DDL));//"hibernate.hbm2ddl.auto"
-        hibernateProperties.setProperty(org.hibernate.cfg.Environment.SHOW_SQL,env.getProperty(HIBERNATE_SHOW_SQL));
-        hibernateProperties.setProperty(org.hibernate.cfg.Environment.CURRENT_SESSION_CONTEXT_CLASS,"thread"); // necessary for BMT .currentSession()
-        return hibernateProperties;
-    }
+//	@Bean
+//	public DataSource dataSource() {
+//		DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource();
+//		driverManagerDataSource.setUrl(env.getProperty(URL));
+//		driverManagerDataSource.setUsername(env.getProperty(USER));
+//		driverManagerDataSource.setPassword(env.getProperty(PASSWORD));
+//		driverManagerDataSource.setDriverClassName(env.getProperty(DRIVER));
+//		return driverManagerDataSource;
+//	}
+//	
+//	
+//	@Bean
+//    public LocalSessionFactoryBean sessionFactory() {
+//        LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
+//        sessionFactory.setPackagesToScan("com.ht.core.model");
+//        sessionFactory.setDataSource(dataSource());
+//        sessionFactory.setHibernateProperties(hibernateProperties()); 
+//        return sessionFactory;
+//    }
+//	
+//	@Bean
+//    public PlatformTransactionManager hibernateTransactionManager() {
+//        HibernateTransactionManager transactionManager = new HibernateTransactionManager();
+//        transactionManager.setSessionFactory(sessionFactory().getObject());
+//        return transactionManager;
+//    }
+// 
+//    private Properties hibernateProperties() {
+//        Properties hibernateProperties = new Properties();
+//        hibernateProperties.setProperty(org.hibernate.cfg.Environment.DIALECT, env.getProperty(HIBERNATE_DIALECT));
+//        hibernateProperties.setProperty(org.hibernate.cfg.Environment.HBM2DDL_AUTO,env.getProperty(HIBERNATE_DDL));//"hibernate.hbm2ddl.auto"
+//        hibernateProperties.setProperty(org.hibernate.cfg.Environment.SHOW_SQL,env.getProperty(HIBERNATE_SHOW_SQL));
+//        hibernateProperties.setProperty(org.hibernate.cfg.Environment.CURRENT_SESSION_CONTEXT_CLASS,"thread"); // necessary for BMT .currentSession()
+//        return hibernateProperties;
+//    }
+//	
 	
 	
-	
-	@Bean
-	public UserRowMapper userRowMapper() {
-		return new UserRowMapper();
-	}
-	
-	@Bean
-	public JdbcTemplate jdbcTemplate(DataSource datasource) {
-		return new JdbcTemplate(datasource);
-	}
-	
-	@Bean
-	public NamedParameterJdbcTemplate namedParameterJdbcTemplate(DataSource datasource) {
-		return new NamedParameterJdbcTemplate(datasource);
-	}
-	
+//	@Bean
+//	public UserRowMapper userRowMapper() {
+//		return new UserRowMapper();
+//	}
+//	
+//	@Bean
+//	public JdbcTemplate jdbcTemplate(DataSource datasource) {
+//		return new JdbcTemplate(datasource);
+//	}
+//	
+//	@Bean
+//	public NamedParameterJdbcTemplate namedParameterJdbcTemplate(DataSource datasource) {
+//		return new NamedParameterJdbcTemplate(datasource);
+//	}
+//	
 }

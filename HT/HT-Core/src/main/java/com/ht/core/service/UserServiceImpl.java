@@ -1,10 +1,7 @@
 package com.ht.core.service;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 
 import com.ht.core.beans.UserDto;
 import com.ht.core.dao.UserDao;
@@ -15,19 +12,20 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl  {
 
 	@Autowired
 	private UserDao userDao;
 	
 	
-	@Override
+	
 	public void register(UserDto userDto) {		
 		//let's imagine (8 lines of code) many checks before save...
 		User userAsModel = BeanUtils.dto2Model(userDto);
 		userDao.save(userAsModel);		
 	}
 
+	/*
 	@Override	
 	public UserDto findById(long id) {
 		User user = userDao.findUserById(id);
@@ -53,5 +51,5 @@ public class UserServiceImpl implements UserService {
 //		throw new UnsupportedOperationException("Not implemented");
 	}
 
-
+*/
 }
