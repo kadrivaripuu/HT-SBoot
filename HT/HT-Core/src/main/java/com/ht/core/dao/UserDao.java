@@ -15,6 +15,7 @@ import com.ht.core.model.User;
 @Repository
 public interface UserDao extends JpaRepository<User,Long> {
 
+
 	List<User> findByUsername(String username);
 	
 	List<User> findByUsernameAndRole(String username, String role);

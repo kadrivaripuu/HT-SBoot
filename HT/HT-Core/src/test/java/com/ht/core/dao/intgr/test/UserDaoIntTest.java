@@ -54,19 +54,19 @@ public class UserDaoIntTest {
 //		userDao.findByFname(fnameToTest);
 //	}
 
-	@Test
-	public void testDelete() {
-		UserDao userDao = context.getBean(UserDao.class);
-
-		String usernameToTest = "nextOneUser";
-		
-		User user = mockUser();
-		user.setUsername(usernameToTest);
-		userDao.save(user);
-
-//		userDao.deleteById(userDao.findAll().get(0).getId());
-		userDao.deleteByUsername(usernameToTest);
-	}
+//	@Test
+//	public void testDelete() {
+//		UserDao userDao = context.getBean(UserDao.class);
+//
+//		String usernameToTest = "nextOneUser";
+//		
+//		User user = mockUser();
+//		user.setUsername(usernameToTest);
+//		userDao.save(user);
+//
+////		userDao.deleteById(userDao.findAll().get(0).getId());
+//		userDao.deleteByUsername(usernameToTest);
+//	}
 
 	
 	

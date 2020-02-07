@@ -2,6 +2,8 @@ package com.ht.core.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.annotation.Propagation;
 
 import com.ht.core.beans.UserDto;
 import com.ht.core.dao.UserDao;
@@ -12,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
+@Transactional(propagation = Propagation.REQUIRED)
 public class UserServiceImpl  {
 
 	@Autowired
@@ -25,24 +28,27 @@ public class UserServiceImpl  {
 		userDao.save(userAsModel);		
 	}
 
-	/*
-	@Override	
+		
 	public UserDto findById(long id) {
-		User user = userDao.findUserById(id);
+		User user = userDao.findById(id).get();
 		UserDto userAsDto = BeanUtils.model2Dto(user);
 		return userAsDto;
 	}
 	
-	@Override
+	
 	public void deleteUser(long id) {
-		userDao.deleteUser(id);
+		userDao.deleteById(id);
 	}
 	
 	
-
+	/*
 	
 	@Override
-	public void updateUser(UserDto userDto) {
+	public void updateUser(UserDto newUserDto)  throws IllegalStateException {
+
+		if (newUserDto.getId() == null) {
+			throw new IllegalStateException("User not found!");
+		}
 
 		User user = BeanUtils.dto2Model(userDto);
 		userDao.updateUser(user);
