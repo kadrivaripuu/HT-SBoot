@@ -23,7 +23,7 @@ public class UserServiceImpl {
 
 	@Autowired
 	private UserDao userDao;
-
+	
 	public void register(UserDto userDto) {
 		// let's imagine (8 lines of code) many checks before save...
 		User userAsModel = BeanUtils.dto2Model(userDto);
